@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% from 'macroses.html' import job_type, render_category %}
+{% block title %}
+{{ _('Main page') }}
+{% endblock %}
+{% block header %}
+<span class="description">
+  {{ config.description }}
+</span>
+{% endblock %}
+{% block navigation %}
+<div id="nav">
+  <div class="search-wrapper">
+	<form method="POST" id="search-form" action="#search">
+	  <input type="text" name="search" value="" placeholder="Search:python, javascript, php" />
+	</form>
+  </div>
+  <a href="{% url new %}" id="postjob" class="pretty-button">
+	<span>Post a new job</span></a>
+</div>
+{% endblock %}
+
+{% block main %}
+{{ render_category(category) }}
+<a href="/">{{ _('← Back to all jobs') }}</a>
+{% endblock %}

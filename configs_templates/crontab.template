@@ -1,0 +1,6 @@
+# {{ project_name }} spawner
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+*/2 *   * * *   www-data    sh {{ spawner }}

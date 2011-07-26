@@ -1,0 +1,25 @@
+<div id="job" class="job">
+  <header>
+	<div class="meta">
+	<h1>{{ job.title|e }}</h1>
+	  <span class="posted">Posted <abbr title="{{ job['date'] }}">{{ job.date|distance_of_time() }}</abbr></span>
+	  <span class="company"><a href="{{ job['url'] }}">{{ job['company']|e }}</a></span>
+	  <span class="location">{{ job.location|e }}</span>
+	</div>
+	<a href="{{ job.url }}" class="company-logo"><img src="{{ job['logo_url'] }}" title="{{	job.company }}" /></a>
+  </header>
+  <div class="description">
+	{{ job['description']|markdown() }}
+  </div>
+  <ul class="todo">
+	<li class="share">
+	  <a href="http://twitter.com/share" class="twitter-share-button"
+	  data-text="{{ job.title|e }}" data-count="vertical"
+	  data-via="dzone_jobs">{{ _('Tweet this job') }}</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+	</li>
+  </ul>
+  <div id="job-apply">
+	<h3>{{ _('How to apply') }}</h3>
+	<p>{{ job.how_apply|e }}</p>
+  </div>
+</div>

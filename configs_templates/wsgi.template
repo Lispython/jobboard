@@ -1,0 +1,18 @@
+import os
+import sys
+import site 
+
+PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
+
+def rel(*parts):
+    return os.path.join(PROJECT_ROOT, *parts)
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+
+site.addsitedir(rel('{{ current }}','venv', 'lib', '{{ python_version }}', 'site-packages'))
+sys.path.append('{{ current }}')
+os.environ['DJANGO_SETTINGS_MODULE'] = 'current.settings'
+
+import django.core.handlers.wsgi
+
+application = django.core.handlers.wsgi.WSGIHandler()

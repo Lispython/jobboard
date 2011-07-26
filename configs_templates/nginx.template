@@ -1,0 +1,46 @@
+upstream  backend_{{ project_name }}  {
+    server   unix:///tmp/{{ project_name }}.sock;
+}
+
+server {
+  listen {{ server_ip }}:80;
+
+  server_name {{ site_name }} www.{{ site_name }};
+  set $project_root "{{ current }}";
+  root $project_root/root;
+  
+  error_log /var/log/nginx/{{ site_name }}.error.log;
+  access_log /var/log/nginx/{{ site_name }}.access.log;
+
+
+  gzip             on;
+  gzip_min_length  1000;
+  gzip_proxied     expired no-cache no-store private auth;
+
+  location ~* ^.+\.(ico|txt)$ {
+
+	root $project_root/root;
+  }
+
+
+  location / {
+  	uwsgi_pass backend_{{ project_name }};
+
+    include uwsgi_params;
+    ##uwsgi_param UWSGI_PYHOME $project_root/venv;
+  }
+  location /media {
+  {% if media_root %}
+    root {{ media_root }};
+	{% else %}
+	root $project_root;
+	{% endif %}
+  }
+  location /static {
+    root $project_root;
+  }
+  location /admin-media {
+    alias $project_root/venv/src/django/django/contrib/admin/media/;
+  }
+}
+

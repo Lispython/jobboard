@@ -1,0 +1,18 @@
+{{ display }}
+<div id="feedback" class="module {% if diplay == False %}nodispley{% endif %}">
+  <div class="module-wrapper">
+	<form method="POST" id="feedback-form" action="/feedback/">
+	  <h2><label for="feedback">{{ _('How can we make obout better?') }}</label></h2>
+	  <div class="message"></div>
+	  <div class="field-wrapper">
+		<textarea name="message" id="feedback-text"  placeholder="{{ _('Send us suggestions, bug reports, love letters, etc.') }}"></textarea>
+	  </div>
+	  <div class="field-wrapper button-wrapper">
+  		<input type="submit" name="feed_submit" value="{{ _('Submit!') }}" class="pretty" />
+	  </div>
+	  <div class="field-wrapper email-wrapper">
+		<input type="text" id="email" name="email" placeholder="{{ _('Your email address') }}" value="{% if request.user.is_authenticated() %}{{ request.user.email }}{% endif %}" />
+	  </div>
+	</form>
+  </div>
+</div>

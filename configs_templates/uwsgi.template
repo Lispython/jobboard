@@ -1,0 +1,11 @@
+<uwsgi>
+  <socket>/tmp/{{ project_name }}.sock</socket>
+  <pythonpath>{{ current }}/</pythonpath>
+  <processes>3</processes>
+  <master/>
+  <home>{{ current }}/venv/</home>
+  <wsgi-file>{{ current }}/project.wsgi</wsgi-file>
+  <daemonize>/var/log/uwsgi/{{ project_name }}.log</daemonize>
+  <gid>www-data</gid>
+  <uid>www-data</uid>
+</uwsgi>

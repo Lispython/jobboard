@@ -1,0 +1,36 @@
+{%- if paginator.is_paginated -%}
+    {%- if paginator.has_previous -%}
+        <a href="{{ paginator.base_url }}page={{ paginator.previous }}" title="Предыдущая страница" class="previous">← сюда</a>
+    {%- else -%}
+        <span class="previous">← сюда</span>
+    {%- endif -%}
+ 
+{%- if not paginator.in_leading_range -%}
+	{%- for num in paginator.pages_outside_trailing_range -%}
+		<a href="{{ paginator.base_url }}page={{ num }}" class="page">{{ num }}</a>
+	{%- endfor -%}
+	<div class="ellipsis">...</div>
+{%- endif -%}
+ 
+{%- for num in paginator.page_numbers -%}
+  {%- if num == paginator.page -%}
+    {%- if pages==1 -%}
+
+    {%- else -%}
+	<span class="current" title="Текущая страница">{{ num }}</span>
+    {%- endif -%}
+  {%- else -%}
+    <a href="{{ paginator.base_url }}page={{ num }}" title="Страница {{ num }}" class="page">{{ num }}</a>
+  {%- endif -%}
+{%- endfor -%}
+ 
+{%- if not paginator.in_trailing_range -%}
+	<div class="ellipsis">...</div>
+	{%- for num in paginator.pages_outside_leading_range -%}
+	    <a href="{{ paginator.base_url }}page={{ num }}" class="page">{{ num }}</a>
+	{%- endfor -%}
+{%- endif -%}
+ 
+
+
+{%- endif -%}

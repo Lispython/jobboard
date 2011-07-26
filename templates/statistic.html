@@ -1,0 +1,5 @@
+{% if not settings.debug %}
+{% for c,v in config.counters.items() %}
+{{ v }}
+{% endfor %}
+{% endif %}

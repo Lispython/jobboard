@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% from 'macroses.html' import form_dl_item as fdl %}
+{% block title %}
+{{ _('Post a new job') }}
+{% endblock %}
+{% block header %}
+<div id="tagline" class="tagline">
+  {{ _('Find a job, %username%') }}
+</div>
+{% endblock %}
+{% block navigation %}
+
+{% endblock %}
+
+{% block main %}
+<div id="new-post">
+  <form method="POST" id="post-form" action="{% url new %}{% if token
+											 %}?token={{ token}}{%
+											 endif %}" class="pretty-form">
+	{% if token %}
+	<input type="hidden" name="token" value="{{ token }}" />
+	{% endif %}
+	<h2>{{ _('Job Details') }}</h2>
+	{{ fdl(form.job_type) }}
+	{{ fdl(form.category) }}
+	{{ fdl(form.title) }}
+	{{ fdl(form.description) }}
+	{{ fdl(form.how_apply) }}
+	{{ fdl(form.email) }}
+	<h2>{{ _('About company or person') }}</h2>
+	{{ fdl(form.name) }}
+	{{ fdl(form.url) }}
+	{{ fdl(form.logo_url) }}
+	{{ fdl(form.location) }}
+	<div class="item">
+	  	<input type="submit" name="post-form-submit" value="{{
+	  	_('Step 2: Preview') }}" class="pretty-button" />
+	</div>
+	</form>
+</div>
+<div class="steps">
+  <span class="step c-step">{{ _('Step 1: Create') }}</span>
+  <span class="step">{{ _('Step 2: Preview') }}</span>
+  <span class="step">{{ _('Step 3: Publish') }}</span>
+</div>
+<div class="infobar"></div>
+{% endblock %}

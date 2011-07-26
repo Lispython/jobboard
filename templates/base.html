@@ -1,0 +1,41 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>{% block title %}Implementation error{% endblock %}</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/> 
+	<link rel="stylesheet" href="{% media 'css/jobboard.dev.css' %}" type="text/css" media="screen" />
+	<link rel="stylesheet" href="{% media 'js/jobboard.dev.js' %}" type="text/css" media="screen" />
+	<link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin" rel="stylesheet" type="text/css">
+
+</head> 
+<body> 
+  <div class="wrapper">
+	<div id="header">
+	  <a href="/" class="logo" id="logo">DZone Job Board</a>
+	  {% block header %}
+	  Implementation Error
+	  {% endblock %}
+	</div>
+	{% block navigation %}
+	<div id="nav" class="nav">
+	  Implementation error
+	</div>
+	{% endblock %}
+	<div id="content" class="content">
+	  {% block main %}
+	  Implementation error
+	  {% endblock %}
+	</div>
+	<ul class="footer"> 
+	  <li><a href="http://wrttn.me">wrttn</a></li> 
+	  <li><a href="http://throwcatch.me">throwcatch</a></li> 
+	  <li><a href="http://dzone.me">dzone</a></li> 
+	  <li><a href="http://autoway.me">autoway</a></li> 
+	  <li><a href="http://news.ycombinator.com">HN</a></li>		
+	  <li class="copy">&copy; 2010 <a href="http://obout.ru">obout.ru</a></li> 
+	</ul>
+	{# include 'feedback_form.html' #}
+  </div> 
+</body> 
+</html>

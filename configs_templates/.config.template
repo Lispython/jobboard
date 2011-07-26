@@ -1,0 +1,49 @@
+project_name: projectname
+projects_path: /var/www/
+site_name: domain.com
+repositories: /home/git/repositories/
+project_repository: git@obout.ru:project_name.git
+python_version: python2.5
+
+parent: origin
+branch: master
+hosts: ["root@obout.ru"]
+
+databases: {
+default: {
+    engine: 'django.db.backends.mysql',
+    name: db_name,
+    user: db_user,
+    password: password,
+    host: ,
+    port: ,  
+  }
+}
+
+mail: {
+  server_email: "name@domain.com",
+  default_from_email: "name@domain.com",
+  email_host_user: "name@domain.com",
+  email_host_password: "password",
+  email_subject_prefix: "domain.com",
+  email_host: 'smtp_domain.com',
+  email_port: 25,
+  email_use_tls: True,
+}
+
+admin_mail: alexandr@obout.ru
+requirements: req.txt
+server_ip: 174.136.0.210
+
+templates: configs_templates
+
+admins: { 
+  alexandr: "Alexandr.S.rus@gmail.com"
+}
+
+memcache: [
+  "127.0.0.1:11211"
+]
+
+redis_host: 127.0.0.1
+redis_db: 0

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from 'macroses.html' import form_dl_item as fdl %}
+{% block title %}{{ _('Preview for "%s"') % job.title }}{% endblock %}
+{% block navigation %}
+
+{% endblock %}
+{% block header %}
+<div id="tagline" class="tagline">
+  {{ _('Find a job, %username%') }}
+</div>
+{% endblock %}
+{% block main %}
+{% include 'job_main.html' %}
+<form method="POST" id="publish-form" action="{% url publish %}" class="pretty-form">
+  <input type="hidden" name="token" value="{{ token }}" />
+  {{ captcha_form.code }}
+  {{ fdl(captcha_form.img) }}
+  <div class="item">
+	<input type="submit" name="" value="{{ _('Step 3: publish') }}"
+	class="pretty-button" /> {{ _('or <a href="%(url)s?token=%(token)s">edit</a>') % {
+	'url':url('new'),'token':token} }}
+  </div>
+</form>
+{% endblock %}

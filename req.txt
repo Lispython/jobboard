@@ -1,0 +1,17 @@
+html5lib
+pymongo
+-e svn+http://python-markdown2.googlecode.com/svn/trunk#egg=markdown2
+python-memcached
+pytils
+chardet
+-e git+https://github.com/mitsuhiko/jinja2.git#egg=jinja2
+pyyaml
+-e git+http://github.com/jsamsa/python-textile.git#egg=textile
+WTForms
+-e git+git://github.com/django-extensions/django-extensions.git#egg=django-extensions
+-e git+git://github.com/robhudson/django-debug-toolbar.git#egg=debug_toolbar
+-e svn+http://code.djangoproject.com/svn/django/trunk#egg=django
+-e git+git://github.com/bartTC/django-memcache-status.git#egg=memcache_status
+PIL
+-e git+https://github.com/mitsuhiko/werkzeug.git@0.6#egg=werkzeug
+-e git+https://github.com/django-mongodb-engine/mongodb-cache.git#egg=django_mongodb_cache

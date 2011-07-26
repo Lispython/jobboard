@@ -1,0 +1,75 @@
+# -*- coding: utf-8 -*-
+
+import os.path
+import sys
+
+DEBUG = {% if debug %}{{ debug }}{% else%}False{% endif %}
+TEMPLATE_DEBUG = DEBUG
+
+SENTRY_ADMINS = (
+{% for i,v in admins.items() -%}
+   ('{{ i }}', '{{ v }}'),
+{% endfor %}
+)
+
+MANAGERS = SENTRY_ADMINS
+
+DATABASES = {
+{%- for k,options in databases.items() %}
+  '{{ k }}': {
+     {% for o, v in options.items() -%}
+       {% if v -%}
+        '{{ o.upper() }}': '{{ v }}',
+       {%- endif %}
+     {% endfor %}  
+   },
+{%- endfor %}
+}
+
+{% if redis %}
+REDIS_HOST = "{% if redis.host %}{{ redis.host }}{% else %}localhost{% endif %}"
+REDIS_PORT = {% if redis.port %}{{ redis.port }}{% else %}6379{% endif %}
+REDIS_DB = "{{ redis.db }}"
+{% endif %}
+
+SERVER_EMAIL = '{% if mail.server_email %}{{ mail.server_email }}{% endif %}'
+DEFAULT_FROM_EMAIL = '{% if mail.default_from_email %}{{ mail.default_from_email }}{% endif %}'
+EMAIL_HOST_USER = '{% if mail.email_host_user %}{{ mail.email_host_user }}{% endif %}'
+EMAIL_HOST_PASSWORD = '{% if mail.email_host_password %}{{ mail.email_host_password }}{% endif %}'
+EMAIL_SUBJECT_PREFIX = '{% if mail.email_subject_prefix %}{{ mail.email_subject_prefix }}{% endif %}'
+EMAIL_HOST = '{% if mail.email_host %}{{ mail.email_host }}{% endif %}'
+EMAIL_PORT = '{% if mail.email_port %}{{ mail.email_port }}{% else %}587{% endif %}'
+EMAIL_USE_TLS = True
+
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = '$oo^&_m&qwbib=(_4m_n*zn-d=g#s0he5fx9xonnym#8p6yigm'
+
+if not DEBUG:
+    CACHES = {
+        {%- for k, v in caches.items() -%}
+        '{{ k }}': {
+            {% if v.BACKEND %}'BACKEND': '{{ v.BACKEND }}', {% endif %}
+            {% if v.LOCATION %}'LOCATION': {% if v.LOCATION is string() %}'{{ v.LOCATION }}'{% else %} {{v.LOCATION}} {%  endif %}{% endif %}
+        }, 
+        {%- endfor -%}
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+            }
+        }
+
+
+{% if mongo %}
+MONGO_HOST = "{% if mongo.host %}{{ mongo.host }}{% else %}localhost{% endif %}"
+MONGO_PORT = {% if mongo.port %}{{ mongo.port }}{% else %}27017{% endif %}
+MONGO_DB = '{% if mongo.db_name %}{{ mongo.db_name }}{% else %}{% endif %}'
+MONGO_USER = '{% if mongo.db_user %}{{ mongo.db_user }}{% else %}{% endif %}'
+MONGO_PASSWORD = '{% if mongo.password %}{{ mongo.password }}{% else %}{% endif %}'
+{% endif %}
+
+{% if media_root %}
+MEDIA_ROOT = os.path.abspath("{{ media_root }}/{{ project_name }}")
+{% endif %}

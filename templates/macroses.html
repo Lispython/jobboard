@@ -1,0 +1,122 @@
+{% macro job_type(type_id) %}
+<a href="{# url by_type type_id #}" class="job-type job-type-{{ type_id }}">
+  <span class="">{{ get_job_type(type_id) }}</span>
+</a>
+{% endmacro %}
+
+
+{%- macro nav(name, text, current) -%}
+<li><a href="{{ url(name) }}" {% if current == name %}class="current"{% endif %}><span>{{ text }}</span></a></li>
+{%- endmacro -%}
+
+{% macro search(fi, wc="search_wrapper") -%}
+<div class="{{ wc }}">
+  <form class="search" id="{{ fi }}" action="{% url search %}" method="get">
+    <div class="input_wrapper">
+	  {{ input('q', class="searchbox", maxlength=80, size=25) }}
+    </div>
+  </form>
+</div>
+{%- endmacro %}
+
+{%- macro ifset(var) -%}
+{%- if var -%}
+{{ var }}
+{%- endif -%}
+{%- endmacro -%}
+
+{% macro need_auth(flag=None) %}
+{%- if flag == True -%}
+{%- if request.user.is_authenticated() -%}
+{{ caller() }}
+{%- endif -%}
+{%- elif flag == False -%}
+{%- if not request.user.is_authenticated() -%}
+{{ caller() }}
+{%- endif -%}
+{%- else -%}
+{{ caller() }}
+{%- endif -%}
+{% endmacro %}
+
+{% macro sidebar_block(title='', class='', c=0, auth=None) %}
+{%- set my_caller = caller -%}
+{%- call need_auth(auth) -%}
+<li class="block {{ ifset(class) }}">
+  {% if c %}
+  {{ my_caller() }}
+  {% else %}
+  <dl>
+	<dt class="title">{{ title }}</dt>
+	{{ my_caller() }}
+  </dl>
+  {% endif %}
+</li>
+{% endcall -%}
+{% endmacro %}
+
+
+{% macro filters(cats, active='active', current, id='filters', class="") -%}
+{%- set active_page = current|default(active) -%}
+<ul id="{{ id }}" class="{{ class }}">
+  {%- for href, id, caption in cats -%}
+  {%- if loop.last -%}
+  <li class="last {% if id == active_page -%}active{%- endif -%}"><a href="{{ href }}">{{ caption|e }}</a></li>
+  {%- else -%}
+  <li {% if id == active_page -%}class="active"{%- endif -%}><a href="{{ href }}">{{ caption|e }}</a></li>
+  {%- endif -%}
+  {%- endfor -%}
+</ul>
+{%- endmacro -%}
+
+{% macro form_dl_item(field, class="") %}
+{% if field is defined %}
+<dl class="item {{ ifset(class) }}{% if field.errors %}error{% endif %}">
+  <dt>{{ field.label }}</dt>
+  <dd>
+	{{- field -}}
+	{% if caller is defined %}
+	{{ caller() }}
+	{% endif %}
+  </dd>
+  {% if field.errors %}
+  <dd class="errors">
+	{% for x in field.errors %}
+	<div class="error">{{ x }} </div>
+	{% endfor %}
+  </dd>
+  {% endif %}
+  {% if field.description %}
+  <dd class="help_text">{{ field.description }}</dd>
+  {% endif %}
+</dl>
+{% endif %}
+{% endmacro %}
+
+{% macro form_div_item(field, class="") %}
+<div class="item {{ class }}">
+  {{ ifset(field) }}
+  {% if caller is defined %}
+  {{- caller() -}}
+  {% endif%}
+</div>
+{% endmacro %}
+
+
+{% macro render_category(category, limit=0) %}
+{% set jobs = get_by_category(category, limit) %}
+{% if jobs %}
+<div class="job-category job-category-{{ category }}">
+  <h2><a href="{% url 'category' category%}">{{ "%(cat)s Jobs"% {'cat':get_category_name(category)} }}</a></h2>
+  <ul id="category-{{ category }}">
+	{% for x in jobs %}
+	<li class="{% if loop.last %}last {% endif %}job">{{ job_type(x.job_type) }} <a href="{% url job x.job_id %}" class="title">{{ _('%(title)s at %(company)s in %(location)s' % {'title':x.title|e,'company':x.company|e,'location':x.location|e}) }}<span class="published">{{ x.date|distance_of_time() }}</span></a></li>
+	{% endfor %}
+  </ul>
+  {% if caller is defined %}
+  {{- caller() -}}
+  {% endif %}
+</div>
+{% else %}
+{% endif %}
+{% endmacro %}

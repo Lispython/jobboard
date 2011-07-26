@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ job.title }}{% endblock %}
+{% block navigation %}
+<div id="nav" class="nav">
+  <a href="" class="prev">← Back to all jobs</a>
+  <a href="{% url category job.category %}" class="next">{{ _('See
+  more %s jobs →')%get_category_name(job.category) }}</a>
+</div>
+{% endblock %}
+{% block header %}
+<div id="tagline" class="tagline">
+  {{ get_tagline() }}
+</div>
+{% endblock %}
+{% block main %}
+{% include 'job_main.html' %}
+{% endblock %}

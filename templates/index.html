@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% from 'macroses.html' import job_type, render_category %}
+{% block title %}
+{{ _('Main page') }}
+{% endblock %}
+
+{% block header %}
+<div id="tagline" class="tagline">
+  {{ get_tagline() }}
+</div>
+{% endblock %}
+
+{% block navigation %}
+<div id="nav">
+  <div class="search-wrapper">
+	<form method="POST" id="search-form" action="#search">
+	  <input type="text" name="search" value="" placeholder="Search:python, javascript, php" />
+	</form>
+  </div>
+  <a href="{% url new %}" id="postjob" class="pretty-button">
+	<span>Post a new job</span></a>
+</div>
+{% endblock %}
+
+{% block main %}
+{% for x in get_categories() %}
+{% call render_category(x[0]) %}
+<a href="{% url category x[0] %}" class="to-category">{{ _('All in %(cat)s →')%{'cat':x[1]} }}</a>
+{% endcall %}
+{% endfor %}
+{% endblock %}

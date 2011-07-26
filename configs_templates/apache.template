@@ -1,0 +1,21 @@
+<VirtualHost *:8080>
+
+	ServerName {{ site_name }}
+	ServerAlias www.{{ site_name }}	
+	DocumentRoot {{ current }}/root
+	
+	##WSGIDaemonProcess www-data processes=5  maximum-requests=10000 threads=1
+	##WSGIProcessGroup www-data
+    WSGIScriptAlias / {{ current }}/django.wsgi
+
+	CustomLog /var/log/apache2/{{ site_name }}.access.log combined
+	ErrorLog /var/log/apache2/{{ site_name }}.error.log
+
+	ServerAdmin {{ admin_mail }}
+    
+	<Directory "{{ current }}">
+     	Order deny,allow
+        Allow from all
+     </Directory>
+
+</VirtualHost>

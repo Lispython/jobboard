@@ -1,0 +1,19 @@
+#files to ignoring
+*.pyc
+*.pyo
+*.hg*
+*.kpf
+*.sock
+*.conf
+*.config
+*.debug_config
+*.server_config
+#*#
+\#*\#
+.#*
+.rope*
+venv
+debug.log
+pip-log.txt
+*.rdb
+*.db
